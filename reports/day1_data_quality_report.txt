@@ -1,0 +1,155 @@
+BLUESTOCK FINTECH
+Mutual Fund Analytics Platform
+Day 1 - Data Quality Report
+
+1. DATA INGESTION VALIDATION
+
+Total provided CSV datasets: 10
+All 10 datasets were successfully loaded using Pandas.
+
+Initial validation performed:
+- Dataset shape
+- Column data types
+- First 5 records
+- Missing-value checks
+- Duplicate-row checks
+
+
+2. DATA QUALITY FINDINGS
+
+01_fund_master.csv
+Rows: 40
+Columns: 15
+Missing values: 0
+Duplicate rows: 0
+
+02_nav_history.csv
+Rows: 46,000
+Columns: 3
+Missing values: 0
+Duplicate rows: 0
+
+03_aum_by_fund_house.csv
+Rows: 90
+Columns: 5
+Missing values: 0
+Duplicate rows: 0
+
+04_monthly_sip_inflows.csv
+Rows: 48
+Columns: 6
+Missing values: 12
+Duplicate rows: 0
+
+Finding:
+All 12 missing values occur in the yoy_growth_pct column.
+The missing values occur in the initial period where a prior-year
+comparison may not be available. These values have been retained in
+the raw dataset and will be handled during the transformation/cleaning
+stage after validation of the calculation logic.
+
+05_category_inflows.csv
+Rows: 144
+Columns: 3
+Missing values: 0
+Duplicate rows: 0
+
+06_industry_folio_count.csv
+Rows: 21
+Columns: 6
+Missing values: 0
+Duplicate rows: 0
+
+07_scheme_performance.csv
+Rows: 40
+Columns: 19
+Missing values: 0
+Duplicate rows: 0
+
+08_investor_transactions.csv
+Rows: 32,778
+Columns: 13
+Missing values: 0
+Duplicate rows: 0
+
+09_portfolio_holdings.csv
+Rows: 322
+Columns: 8
+Missing values: 0
+Duplicate rows: 0
+
+10_benchmark_indices.csv
+Rows: 8,050
+Columns: 3
+Missing values: 0
+Duplicate rows: 0
+
+
+3. AMFI CODE REFERENTIAL-INTEGRITY VALIDATION
+
+Unique AMFI codes in Fund Master: 40
+Unique AMFI codes in NAV History: 40
+
+Fund Master codes tested: 40
+Matched with NAV History: 40
+Missing codes: 0
+
+Result: PASS
+
+All AMFI codes present in 01_fund_master.csv have corresponding
+records in 02_nav_history.csv.
+
+
+4. LIVE API VALIDATION
+
+The AMFI scheme codes specified in the Day 1 assignment were tested
+against the live mfapi.in API.
+
+A discrepancy was identified between several scheme-code mappings in
+the provided Bluestock Fund Master / assignment and the metadata
+currently returned by the live API.
+
+Example:
+Bluestock Fund Master:
+125497 -> HDFC Top 100 Fund - Direct Plan - Growth
+
+Live API response:
+125497 -> SBI Small Cap Fund - Direct Plan - Growth
+
+Similar mapping discrepancies were observed for several other
+assignment-provided scheme codes.
+
+The raw API responses were preserved using the metadata actually
+returned by the API. No API response was manually relabelled to force
+a match with the provided Fund Master.
+
+
+5. DATA TYPE OBSERVATIONS
+
+Several date-related fields were initially loaded as string/object
+values by Pandas.
+
+Examples include:
+- date
+- month
+- transaction_date
+- portfolio_date
+- launch_date
+
+These fields will require appropriate datetime conversion during the
+data-cleaning/transformation stage.
+
+
+6. DAY 1 QUALITY SUMMARY
+
+- All 10 provided datasets successfully ingested.
+- No exact duplicate rows detected in the initial checks.
+- 9 of 10 datasets contained no missing values.
+- 12 missing values identified in monthly_sip_inflows.csv.
+- All 40 Fund Master AMFI codes matched NAV History.
+- Live API scheme-code mapping discrepancies were identified and
+  preserved transparently.
+- Raw source datasets were not modified during ingestion.
+
+Overall Status: DAY 1 INGESTION VALIDATION PASSED WITH DOCUMENTED
+DATA-QUALITY OBSERVATIONS.
